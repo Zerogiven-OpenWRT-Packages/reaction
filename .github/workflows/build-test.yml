@@ -20,7 +20,7 @@ on:
 
 jobs:
   build-test:
-    name: Build Test - OpenWrt ${{ matrix.openwrt_version }}
+    name: Build Test - OpenWrt ${{ matrix.arch }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
