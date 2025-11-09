@@ -23,7 +23,7 @@ After installation, configuration files are expected under `/etc/reaction`.
 
 ## Usage
 
-After installed the reaction service automatically started but by default no jails/streams are activated. In this package there is a sample configuration for dropbear and luci
+After installation the reaction service automatically started but by default no jails/streams are activated. In this package there is a sample configuration for dropbear and luci
 web interface. To activate them you have to rename the file streams file:
 
 ```bash
