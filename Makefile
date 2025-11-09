@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: MIT
+#
+# Copyright (C) 2025 Anya Lin <hukk1996@gmail.com>
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=reaction
+PKG_VERSION:=2.2.1
+PKG_RELEASE:=1
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-v$(PKG_VERSION)
+PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://framagit.org/ppom/reaction/-/archive/v$(PKG_VERSION)
+PKG_HASH:=e2b1c6927a1fa4da10e2e356aeafa00bbcbf7a4228355f944bb96d79532d3bf0
+
+PKG_MAINTAINER:=Christopher Söllinger
+PKG_LICENSE:=GPLv3
+PKG_LICENSE_FILES:=LICENSE
+
+PKG_BUILD_DEPENDS:=rust/host
+PKG_BUILD_PARALLEL:=1
+
+include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
+
+define Package/reaction
+	SECTION:=utils
+	CATEGORY:=Utilities
+	TITLE:=A daemon that scans program outputs for repeated patterns, and takes action.
+	URL:=https://reaction.ppom.me/
+	DEPENDS:=$(RUST_ARCH_DEPENDS)
+endef
+
+define Package/reaction/description
+	A daemon that scans program outputs for repeated patterns, and takes action.
+	A common usage is to scan ssh and webserver logs, and to ban hosts that cause multiple authentication errors.
+endef
+
+define Package/reaction/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/aarch64-unknown-linux-musl/release/reaction $(1)/usr/bin/
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/etc/init.d/reaction.init $(1)/etc/init.d/reaction
+
+	$(INSTALL_DIR) $(1)/etc/reaction
+	$(INSTALL_CONF) ./files/etc/reaction/.lib.jsonnet $(1)/etc/reaction/.lib.jsonnet
+	$(INSTALL_CONF) ./files/etc/reaction/config.jsonnet $(1)/etc/reaction/config.jsonnet
+	$(INSTALL_CONF) ./files/etc/reaction/streams.jsonnet $(1)/etc/reaction/__DISABLED__streams.jsonnet
+endef
+
+$(eval $(call RustBinPackage,reaction))
+$(eval $(call BuildPackage,reaction))
