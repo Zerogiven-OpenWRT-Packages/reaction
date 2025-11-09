@@ -49,5 +49,21 @@ define Package/reaction/install
 	$(INSTALL_CONF) ./files/etc/reaction/streams.jsonnet $(1)/etc/reaction/__DISABLED__streams.jsonnet
 endef
 
+define Package/reaction/postinst
+#!/bin/sh
+/etc/init.d/reaction enable
+/etc/init.d/reaction start
+exit 0
+endef
+
+define Package/$(PKG_NAME)/prerm
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	/etc/init.d/reaction stop
+	/etc/init.d/reaction disable
+fi
+exit 0
+endef
+
 $(eval $(call RustBinPackage,reaction))
 $(eval $(call BuildPackage,reaction))
