@@ -38,7 +38,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-unknown-linux-musl/release/reaction $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-linux-*/release/reaction $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/etc/init.d/reaction.init $(1)/etc/init.d/reaction
