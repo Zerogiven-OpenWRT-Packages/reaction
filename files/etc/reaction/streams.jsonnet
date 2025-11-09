@@ -11,7 +11,7 @@ local lib = import '.lib.jsonnet';
             @'dropbear\\[.*\\]: Login attempt for nonexistent user from <ip>:',
             @'dropbear\\[.*\\]: Bad password attempt for .* from <ip>',
           ],
-          retry: 5,
+          retry: 10,
           retryperiod: '6h',
           actions: lib.banFor('48h'),
         },
@@ -25,7 +25,7 @@ local lib = import '.lib.jsonnet';
           regex: [
             @'luci: failed login on .* for .* from <ip>',
           ],
-          retry: 5,
+          retry: 10,
           retryperiod: '3h',
           actions: lib.banFor('12h'),
         },
