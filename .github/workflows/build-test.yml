@@ -27,11 +27,26 @@ jobs:
         include:
           - openwrt_version: '24.10'
             arch: 'x86_64-24.10.3'
+          # - openwrt_version: '24.10'
+          #   arch: 'aarch64_cortex-a53-24.10.3'
           - openwrt_version: '23.05'
             arch: 'x86_64-23.05.6'
+          # - openwrt_version: '23.05'
+          #   arch: 'aarch64_cortex-a53-23.05.6'
       fail-fast: false
     
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: false
+          swap-storage: false
+
       - name: Check if version should be built
         run: |
           # Check if this matrix combination should be built
