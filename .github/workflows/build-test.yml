@@ -36,6 +36,16 @@ jobs:
       fail-fast: false
     
     steps:
+      - name: Check if version should be built
+        run: |
+          # Check if this matrix combination should be built
+          if [ "${{ github.event.inputs.openwrt_version }}" != "both" ] && [ "${{ github.event.inputs.openwrt_version }}" != "${{ matrix.openwrt_version }}" ]; then
+            echo "Skipping build: OpenWrt version mismatch (requested: ${{ github.event.inputs.openwrt_version }}, matrix: ${{ matrix.openwrt_version }})"
+            exit 0
+          fi
+          
+          echo "Proceeding with build for OpenWrt ${{ matrix.openwrt_version }}"
+
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
         with:
@@ -46,16 +56,6 @@ jobs:
           large-packages: true
           docker-images: false
           swap-storage: false
-
-      - name: Check if version should be built
-        run: |
-          # Check if this matrix combination should be built
-          if [ "${{ github.event.inputs.openwrt_version }}" != "both" ] && [ "${{ github.event.inputs.openwrt_version }}" != "${{ matrix.openwrt_version }}" ]; then
-            echo "Skipping build: OpenWrt version mismatch (requested: ${{ github.event.inputs.openwrt_version }}, matrix: ${{ matrix.openwrt_version }})"
-            exit 0
-          fi
-          
-          echo "Proceeding with build for OpenWrt ${{ matrix.openwrt_version }}"
 
       - name: Checkout repository
         uses: actions/checkout@v5
