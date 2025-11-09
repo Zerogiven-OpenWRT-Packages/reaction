@@ -9,6 +9,7 @@ on:
         default: 'both'
         type: choice
         options:
+        - 'both'
         - '24.10'
         - '23.05'
       verbose:
