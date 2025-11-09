@@ -23,8 +23,9 @@ After installation, configuration files are expected under `/etc/reaction`.
 
 ## Usage
 
-After installation the reaction service automatically started but by default no jails/streams are activated. In this package there is a sample configuration for dropbear and luci
-web interface. To activate them you have to rename the file streams file:
+> After installation the reaction service automatically with two active streams for ssh and luci.
+
+**IMPORTANT**: Be aware that after installing you lock out yourself if you try to login with wrong password more than 10 times. Thats the reason why the number is so high by default. Change it for better security.
 
 ```bash
 mv /etc/reaction/__DISABLED__streams.jsonnet /etc/reaction/streams.jsonnet
