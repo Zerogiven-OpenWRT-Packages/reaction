@@ -23,7 +23,7 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
-define Package/reaction
+define Package/$(PKG_NAME)
 	SECTION:=utils
 	CATEGORY:=Utilities
 	TITLE:=A daemon that scans program outputs for repeated patterns, and takes action.
@@ -31,14 +31,14 @@ define Package/reaction
 	DEPENDS:=$(RUST_ARCH_DEPENDS)
 endef
 
-define Package/reaction/description
+define Package/$(PKG_NAME)/description
 	A daemon that scans program outputs for repeated patterns, and takes action.
 	A common usage is to scan ssh and webserver logs, and to ban hosts that cause multiple authentication errors.
 endef
 
-define Package/reaction/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/aarch64-unknown-linux-musl/release/reaction $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-unknown-linux-musl/release/reaction $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/etc/init.d/reaction.init $(1)/etc/init.d/reaction
@@ -46,24 +46,8 @@ define Package/reaction/install
 	$(INSTALL_DIR) $(1)/etc/reaction
 	$(INSTALL_CONF) ./files/etc/reaction/.lib.jsonnet $(1)/etc/reaction/.lib.jsonnet
 	$(INSTALL_CONF) ./files/etc/reaction/config.jsonnet $(1)/etc/reaction/config.jsonnet
-	$(INSTALL_CONF) ./files/etc/reaction/streams.jsonnet $(1)/etc/reaction/__DISABLED__streams.jsonnet
+	$(INSTALL_CONF) ./files/etc/reaction/streams.jsonnet $(1)/etc/reaction/streams.jsonnet
 endef
 
-define Package/reaction/postinst
-#!/bin/sh
-/etc/init.d/reaction enable
-/etc/init.d/reaction start
-exit 0
-endef
-
-define Package/$(PKG_NAME)/prerm
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/reaction stop
-	/etc/init.d/reaction disable
-fi
-exit 0
-endef
-
-$(eval $(call RustBinPackage,reaction))
-$(eval $(call BuildPackage,reaction))
+$(eval $(call RustBinPackage,$(PKG_NAME)))
+$(eval $(call BuildPackage,$(PKG_NAME)))
