@@ -1,0 +1,29 @@
+name: New version check
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: 0 16 * * 5
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Check new version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To push a branch
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: Zerogiven/openwrt-packages-gitlab-version-checker@main
+        env:
+          GITLAB_DOMAIN: framagit.org
+          PROJECT_ID: 90566
+          REPO: ppom/reaction
+          COMMIT_TOKEN: ${{ secrets.OWRT_PACKAGE_RELEASE_TOKEN }}
+          BRANCH: main
+          SOURCE_URL: https://framagit.org/ppom/reaction/-/archive/{{version}}/reaction-{{version}}.tar.gz
+          
