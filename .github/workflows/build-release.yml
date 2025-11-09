@@ -73,10 +73,12 @@ jobs:
 
       - name: Create artifacts directory structure
         run: |
-          rm -R ${{ github.workspace }}/artifacts
+          if [ -d ${{ github.workspace }}/artifacts ]; then
+            rm -R ${{ github.workspace }}/artifacts
+          fi
           mkdir -p ${{ github.workspace }}/artifacts
 
-      - name: Build OpenWrt ${{ matrix.openwrt_version }} package
+      - name: Build OpenWrt ${{ matrix.openwrt_version }} ${{ matrix.arch }} package
         id: build_package
         uses: openwrt/gh-action-sdk@v9
         env:
