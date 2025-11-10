@@ -1,6 +1,8 @@
-# SPDX-License-Identifier: MIT
 #
-# Copyright (C) 2025 Anya Lin <hukk1996@gmail.com>
+# Copyright (C) 2025 CSoellinger
+# This is free software, licensed under the GNU General Public License v3.
+# See /LICENSE for more information.
+#
 
 include $(TOPDIR)/rules.mk
 
