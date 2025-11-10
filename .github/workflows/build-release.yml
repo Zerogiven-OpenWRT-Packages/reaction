@@ -43,7 +43,7 @@ jobs:
 
     outputs:
       version: ${{ steps.get_version.outputs.version }}
-      tag_name: ${{ steps.get_version.outputs.tag_name }}
+      tag_name: ${{ steps.get_version.outputs.version_tag }}
       package_path: ${{ steps.build_package.outputs.package_path }}
       package_name: ${{ steps.build_package.outputs.package_name }}
 
@@ -65,16 +65,9 @@ jobs:
           path: ${{ github.workspace }}/feed/reaction
           fetch-depth: 0
 
-      - name: Get version from tag
+      - name: Get Version from Tag
         id: get_version
-        run: |
-          # Extract version from tag (remove 'v' prefix)
-          VERSION=${GITHUB_REF#refs/tags/v}
-          TAG_NAME="v$VERSION"
-
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
-          echo "Building version: $VERSION for OpenWrt ${{ matrix.openwrt_version }}"
+        uses: ChrSchu90/GitTagSemanticVersion@v1.1
 
       - name: Create artifacts directory structure
         run: |
@@ -136,12 +129,21 @@ jobs:
           pattern: reaction-*.ipk
           merge-multiple: true
 
+      - name: Prepare assets
+        run: |
+          for f in ${{ github.workspace }}/release-assets/reaction-*.ipk; do
+              [ -f "$f" ] || continue
+              ver=$(echo "$f" | sed -E 's/.*-([0-9]+\.[0-9]+)-.*/\1/')
+              mkdir -p "${{ github.workspace }}/release-assets/$ver"
+              mv "$f" "${{ github.workspace }}/release-assets/$ver/$f"
+          done
+          
       - name: Create GitHub Release & upload assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.build-packages.outputs.tag_name }}
           files: |
-            ${{ github.workspace }}/release-assets/*.ipk
+            ${{ github.workspace }}/release-assets/**/*.ipk
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
