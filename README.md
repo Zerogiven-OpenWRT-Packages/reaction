@@ -12,7 +12,7 @@ Compared to traditional tools like *fail2ban*, `reaction` focuses on simplicity,
 - Fast and efficient daemon written in **Rust**
 - Configurable via **YAML** or **JSONnet**
 - Supports IPv4 and IPv6 rules
-- Works seamlessly with `iptables` / `nftables`
+- Works seamlessly with `iptables` / `nftables` and more
 - Ideal for embedded environments such as OpenWRT routers
 
 ## Installation
@@ -20,19 +20,11 @@ Compared to traditional tools like *fail2ban*, `reaction` focuses on simplicity,
 The package installs the `reaction` binary and integrates with **procd** for service management.  
 After installation, configuration files are expected under `/etc/reaction`.
 
-
 ## Usage
 
-> After installation the reaction service automatically with two active streams for ssh and luci.
+> After installation the reaction service starts automatically with two active streams for ssh and luci.
 
 **IMPORTANT**: Be aware that after installing you lock out yourself if you try to login with wrong password more than 10 times. Thats the reason why the number is so high by default. Change it for better security.
-
-```bash
-mv /etc/reaction/__DISABLED__streams.jsonnet /etc/reaction/streams.jsonnet
-
-# restart the service
-/etc/init.d/reaction restart
-```
 
 ## Documentation
 
