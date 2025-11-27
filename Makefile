@@ -15,8 +15,8 @@ PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://framagit.org/ppom/reaction/-/archive/v$(PKG_VERSION)
 PKG_HASH:=e2b1c6927a1fa4da10e2e356aeafa00bbcbf7a4228355f944bb96d79532d3bf0
 
-PKG_MAINTAINER:=Christopher Söllinger
-PKG_LICENSE:=GPLv3
+PKG_MAINTAINER:=Christopher Söllinger <christopher.soellinger@gmail.com>
+PKG_LICENSE:=AGPLv3
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_DEPENDS:=rust/host
