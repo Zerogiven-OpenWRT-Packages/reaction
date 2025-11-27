@@ -8,10 +8,9 @@ local lib = import '.lib.jsonnet';
       filters: {
         dropbear_failed: lib.filter_default + {
           regex: [
-            @'dropbear\\[.*\\]: Login attempt for nonexistent user from <ip>:',
-            @'dropbear\\[.*\\]: Bad password attempt for .* from <ip>',
+            @'dropbear\[\d+\]: Exit before auth from <<ip>:',
           ],
-          retry: 10,
+          retry: 5,
           retryperiod: '6h',
           actions: lib.banFor('48h'),
         },
