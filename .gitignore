@@ -7,7 +7,6 @@
 *.exe
 *.dll
 *.dylib
-/gpio-fan-rpm
 
 # OpenWRT build artifacts
 *.ipk
