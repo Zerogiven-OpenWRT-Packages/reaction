@@ -41,12 +41,12 @@ jobs:
           - openwrt_version: '24.10'
             openwrt_build_version: '24.10.3'
             arch: 'aarch64_cortex-a72'
-          - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.3'
-            arch: 'mips_24kc'
-          - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.3'
-            arch: 'mipsel_24kc'
+          # - openwrt_version: '24.10'
+          #   openwrt_build_version: '24.10.3'
+          #   arch: 'mips_24kc'
+          # - openwrt_version: '24.10'
+          #   openwrt_build_version: '24.10.3'
+          #   arch: 'mipsel_24kc'
 
           # 23.05
           - openwrt_version: '23.05'
@@ -64,12 +64,12 @@ jobs:
           - openwrt_version: '23.05'
             openwrt_build_version: '23.05.6'
             arch: 'aarch64_cortex-a72'
-          - openwrt_version: '23.05'
-            openwrt_build_version: '23.05.6'
-            arch: 'mips_24kc'
-          - openwrt_version: '23.05'
-            openwrt_build_version: '23.05.6'
-            arch: 'mipsel_24kc'
+          # - openwrt_version: '23.05'
+          #   openwrt_build_version: '23.05.6'
+          #   arch: 'mips_24kc'
+          # - openwrt_version: '23.05'
+          #   openwrt_build_version: '23.05.6'
+          #   arch: 'mipsel_24kc'
       fail-fast: false
     
     steps:
