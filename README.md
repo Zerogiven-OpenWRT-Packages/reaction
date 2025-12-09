@@ -15,9 +15,21 @@ Compared to traditional tools like *fail2ban*, `reaction` focuses on simplicity,
 - Works seamlessly with `iptables` / `nftables` and more
 - Ideal for embedded environments such as OpenWRT routers
 
+## Supported Architectures
+
+Pre-built packages are available for the following architectures:
+
+- **x86_64** - Intel/AMD 64-bit systems
+- **arm_cortex-a7** - ARM Cortex-A7 processors
+- **arm_cortex-a9** - ARM Cortex-A9 processors
+- **aarch64_cortex-a53** - ARM 64-bit Cortex-A53 processors
+- **aarch64_cortex-a72** - ARM 64-bit Cortex-A72 processors
+
+All architectures are built for both OpenWRT 23.05 and 24.10.
+
 ## Installation
 
-The package installs the `reaction` binary and integrates with **procd** for service management.  
+The package installs the `reaction` binary and integrates with **procd** for service management.
 After installation, configuration files are expected under `/etc/reaction`.
 
 ## Usage
