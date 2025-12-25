@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         include:
-          # 24.10 Architekturen
+          # 24.10
           - openwrt_version: '24.10'
             openwrt_build_version: '24.10.4'
             arch: 'x86_64'
@@ -43,7 +43,7 @@ jobs:
             openwrt_build_version: '24.10.4'
             arch: 'arm_cortex-a9'
 
-          # 23.05 Architekturen
+          # 23.05
           - openwrt_version: '23.05'
             openwrt_build_version: '23.05.6'
             arch: 'x86_64'
