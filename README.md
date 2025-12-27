@@ -32,6 +32,24 @@ All architectures are built for both OpenWRT 23.05 and 24.10.
 The package installs the `reaction` binary and integrates with **procd** for service management.
 After installation, configuration files are expected under `/etc/reaction`.
 
+### With package feed
+
+You can setup this package feed to install and update it with opkg:
+
+[https://github.com/Zerogiven-OpenWRT-Packages/package-feed](https://github.com/Zerogiven-OpenWRT-Packages/package-feed)
+
+### Existing System
+
+Download ipk files from release and install them.
+
+```bash
+opkg install kmod-quectel-rm520n-thermal.ipk
+opkg install quectel-rm520n-thermal.ipk
+
+# Optional: Install Prometheus metrics collector
+opkg install prometheus-node-exporter-ucode-quectel-rm520n-thermal.ipk
+```
+
 ## Usage
 
 > After installation the reaction service starts automatically with two active streams for ssh and luci.
