@@ -1,9 +1,12 @@
+[![OpenWrt](https://img.shields.io/badge/OpenWrt-24.10.x-darkgreen.svg)](https://openwrt.org/)
+[![OpenWrt](https://img.shields.io/badge/OpenWrt-23.05.x-darkgreen.svg)](https://openwrt.org/)
+[![GitHub Release](https://img.shields.io/github/v/release/Zerogiven-OpenWRT-Packages/reaction)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/releases)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Zerogiven-OpenWRT-Packages/reaction/total?color=blue)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/releases)
+[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Zerogiven-OpenWRT-Packages/reaction)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/issues)
+
 # reaction
 
 A lightweight log-monitoring and reaction daemon for OpenWrt.
-
-[![OpenWrt 23.05](https://img.shields.io/badge/OpenWrt-23.05.x-green.svg)](https://openwrt.org/)
-[![OpenWrt 24.10](https://img.shields.io/badge/OpenWrt-24.10.x-green.svg)](https://openwrt.org/)
 
 `reaction` scans program outputs (e.g. SSH or web server logs) for repeated patterns and executes user-defined actions – commonly to block malicious hosts after multiple failed logins.
 
@@ -19,8 +22,7 @@ Compared to traditional tools like *fail2ban*, `reaction` focuses on simplicity,
 
 ## Requirements
 
-- OpenWrt 23.05.x or 24.10.x
-- Supported architecture: x86_64, arm_cortex-a7, arm_cortex-a9, aarch64_cortex-a53, aarch64_cortex-a72
+- OpenWrt 23.05/24.10
 
 ## Installation
 
@@ -59,7 +61,3 @@ For complete configuration examples, usage guides, and advanced setup instructio
 - **Main website:** [https://reaction.ppom.me](https://reaction.ppom.me)
 - **Source repository:** [https://framagit.org/ppom/reaction](https://framagit.org/ppom/reaction)
 - **Wiki & examples:** [https://reaction.ppom.me/configurations](https://reaction.ppom.me/configurations)
-
-## License
-
-reaction is open-source software – see the [original repository](https://framagit.org/ppom/reaction) for license details.
