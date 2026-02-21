@@ -1,7 +1,9 @@
 --- a/crates/treedb/src/time.rs
 +++ b/crates/treedb/src/time.rs
 @@ -96,10 +96,10 @@
-
+     pub fn new(secs: u64, nanos: u32) -> Time {
+         Time(Duration::new(secs, nanos))
+     }
      pub fn from_hours(hours: u64) -> Time {
 -        Time(Duration::from_hours(hours))
 +        Time(Duration::from_secs(hours * 3600))
@@ -10,4 +12,5 @@
 -        Time(Duration::from_mins(mins))
 +        Time(Duration::from_secs(mins * 60))
      }
-
+     pub fn from_secs(secs: u64) -> Time {
+         Time(Duration::from_secs(secs))
