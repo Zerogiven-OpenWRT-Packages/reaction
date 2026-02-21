@@ -64,7 +64,7 @@ jobs:
             arch: 'arm_cortex-a9'
       fail-fast: false
 
-    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@main
+    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@prometheus-node-exporter-lua-patch
     with:
       package_name: 'reaction'
       sdk_packages: 'reaction'
