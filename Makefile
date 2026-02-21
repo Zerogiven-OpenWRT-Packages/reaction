@@ -13,7 +13,7 @@ PKG_RELEASE:=1
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-v$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://framagit.org/ppom/reaction/-/archive/v$(PKG_VERSION)
-PKG_HASH:=e2b1c6927a1fa4da10e2e356aeafa00bbcbf7a4228355f944bb96d79532d3bf0
+PKG_HASH:=8068d9124e5b77d26573e106c1d3c092f02314e1bb44b72f1a73310c3c3bfa05
 
 PKG_MAINTAINER:=Christopher Söllinger <christopher.soellinger@gmail.com>
 PKG_LICENSE:=AGPLv3
