@@ -1,0 +1,30 @@
+--- a/plugins/reaction-plugin/src/time.rs
++++ b/plugins/reaction-plugin/src/time.rs
+@@ -35,9 +35,9 @@ pub fn parse_duration(d: &str) -> Result
+     match d_trimmed[i..].trim() {
+         "ms" | "millis" | "millisecond" | "milliseconds" => ok_as(Duration::from_millis),
+         "s" | "sec" | "secs" | "second" | "seconds" => ok_as(Duration::from_secs),
+-        "m" | "min" | "mins" | "minute" | "minutes" => ok_as(Duration::from_mins),
+-        "h" | "hour" | "hours" => ok_as(Duration::from_hours),
+-        "d" | "day" | "days" => ok_as(|d: u64| Duration::from_hours(d * 24)),
++        "m" | "min" | "mins" | "minute" | "minutes" => ok_as(|m: u64| Duration::from_secs(m * 60)),
++        "h" | "hour" | "hours" => ok_as(|h: u64| Duration::from_secs(h * 3600)),
++        "d" | "day" | "days" => ok_as(|d: u64| Duration::from_secs(d * 86400)),
+         unit => Err(format!(
+             "unit {} not recognised. must be one of s/sec/seconds, m/min/minutes, h/hours, d/days",
+             unit
+@@ -60,10 +60,10 @@ mod tests {
+         assert_eq!(parse_duration("1s"), Ok(Duration::from_secs(1)));
+         assert_eq!(parse_duration("12s"), Ok(Duration::from_secs(12)));
+         assert_eq!(parse_duration("  12  secs  "), Ok(Duration::from_secs(12)));
+-        assert_eq!(parse_duration("2m"), Ok(Duration::from_mins(2)));
+-        assert_eq!(parse_duration("6 hours"), Ok(Duration::from_hours(6)));
+-        assert_eq!(parse_duration("1d"), Ok(Duration::from_hours(1 * 24)));
+-        assert_eq!(parse_duration("365d"), Ok(Duration::from_hours(365 * 24)));
++        assert_eq!(parse_duration("2m"), Ok(Duration::from_secs(2 * 60)));
++        assert_eq!(parse_duration("6 hours"), Ok(Duration::from_secs(6 * 3600)));
++        assert_eq!(parse_duration("1d"), Ok(Duration::from_secs(1 * 24 * 3600)));
++        assert_eq!(parse_duration("365d"), Ok(Duration::from_secs(365 * 24 * 3600)));
+ 
+         assert!(parse_duration("d 3").is_err());
+         assert!(parse_duration("d3").is_err());
