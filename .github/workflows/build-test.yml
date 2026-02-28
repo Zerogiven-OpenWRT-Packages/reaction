@@ -6,12 +6,10 @@ on:
       openwrt_version:
         description: 'OpenWrt version to test'
         required: true
-        default: 'both'
+        default: '24.10'
         type: choice
         options:
-        - 'both'
         - '24.10'
-        # - '23.05'
       verbose:
         description: 'Verbose build output'
         required: false
@@ -43,25 +41,6 @@ jobs:
             openwrt_build_version: '24.10.4'
             arch: 'arm_cortex-a9'
 
-          # 23.05
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'x86_64'
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'aarch64_cortex-a53'
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'aarch64_cortex-a72'
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'arm_cortex-a7'
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'arm_cortex-a7_neon-vfpv4'
-          # - openwrt_version: '23.05'
-          #   openwrt_build_version: '23.05.6'
-          #   arch: 'arm_cortex-a9'
       fail-fast: false
 
     uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@prometheus-node-exporter-lua-patch
