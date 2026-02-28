@@ -1,5 +1,4 @@
 [![OpenWrt](https://img.shields.io/badge/OpenWrt-24.10.x-darkgreen.svg)](https://openwrt.org/)
-[![OpenWrt](https://img.shields.io/badge/OpenWrt-23.05.x-darkgreen.svg)](https://openwrt.org/)
 [![GitHub Release](https://img.shields.io/github/v/release/Zerogiven-OpenWRT-Packages/reaction)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/releases)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Zerogiven-OpenWRT-Packages/reaction/total?color=blue)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/releases)
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Zerogiven-OpenWRT-Packages/reaction)](https://github.com/Zerogiven-OpenWRT-Packages/reaction/issues)
@@ -22,7 +21,9 @@ Compared to traditional tools like *fail2ban*, `reaction` focuses on simplicity,
 
 ## Requirements
 
-- OpenWrt 23.05/24.10
+- OpenWrt 24.10
+
+> **Note:** For OpenWrt 23.05, use reaction v2.2.x releases. Version 2.3.0+ requires a newer Rust toolchain not available in 23.05.
 
 ## Installation
 
