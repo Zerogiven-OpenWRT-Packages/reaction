@@ -36,7 +36,9 @@ jobs:
     with:
       package_name: 'reaction'
       sdk_packages: 'reaction'
-      artifacts_patterns: 'reaction*.ipk'
+      artifacts_patterns: |
+        reaction*.ipk
+        reaction*.apk
       openwrt_version: ${{ matrix.openwrt_version }}
       openwrt_build_version: ${{ matrix.openwrt_build_version }}
       arch: ${{ matrix.arch }}
@@ -47,10 +49,9 @@ jobs:
     needs: build-packages
     permissions:
       contents: write
-    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-release.yml@main
+    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-release.yml@prometheus-node-exporter-lua-patch
     with:
       artifact_pattern: 'reaction-*'
-      release_file_pattern: '*.ipk'
       tag_name: ${{ github.ref_name }}
     secrets:
       RELEASE_TOKEN: ${{ secrets.OWRT_PACKAGE_RELEASE_TOKEN }}
