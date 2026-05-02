@@ -10,6 +10,7 @@ on:
         type: choice
         options:
         - '24.10'
+        - '25.12'
       verbose:
         description: 'Verbose build output'
         required: false
