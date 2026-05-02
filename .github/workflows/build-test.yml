@@ -52,7 +52,9 @@ jobs:
     with:
       package_name: 'reaction'
       sdk_packages: 'reaction'
-      artifacts_patterns: 'reaction*.ipk'
+      artifacts_patterns: |
+        reaction*.ipk
+        reaction*.apk
       openwrt_version: ${{ matrix.openwrt_version }}
       openwrt_build_version: ${{ matrix.openwrt_build_version }}
       arch: ${{ matrix.arch }}
