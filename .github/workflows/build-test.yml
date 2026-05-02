@@ -22,6 +22,9 @@ jobs:
       matrix:
         include:
           # 24.10
+          - openwrt_version: '25.12'
+            openwrt_build_version: '25.12.2'
+            arch: 'x86_64'
           - openwrt_version: '24.10'
             openwrt_build_version: '24.10.4'
             arch: 'x86_64'

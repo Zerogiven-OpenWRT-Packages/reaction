@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME    := reaction
-PKG_VERSION := 2.3.0
+PKG_VERSION := 2.3.1
 PKG_RELEASE := 1
 
 PKG_BUILD_DIR  := $(BUILD_DIR)/$(PKG_NAME)-v$(PKG_VERSION)
 PKG_SOURCE     := $(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL := https://framagit.org/ppom/reaction/-/archive/v$(PKG_VERSION)
-PKG_HASH       := 8068d9124e5b77d26573e106c1d3c092f02314e1bb44b72f1a73310c3c3bfa05
+PKG_HASH       := 5041c97750531779a17756640f876992a930730f1590078aa0e2533195716b1f
 
 PKG_MAINTAINER    := Christopher Söllinger <christopher.soellinger@gmail.com>
 PKG_LICENSE       := AGPLv3
