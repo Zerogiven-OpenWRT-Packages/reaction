@@ -51,7 +51,7 @@ jobs:
     uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@prometheus-node-exporter-lua-patch
     with:
       package_name: 'reaction'
-      sdk_packages: 'reaction libnftnl11 libmnl0 libgmp10'
+      sdk_packages: 'libnftnl libmnl gmp reaction'
       artifacts_patterns: |
         reaction*.ipk
         reaction*.apk
