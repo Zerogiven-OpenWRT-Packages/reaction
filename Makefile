@@ -19,6 +19,8 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
+CARGO_PKG_VARS += GMP_LIB_DIR=$(STAGING_DIR)/usr/lib
+
 define Package/reaction/Default
   SECTION  := utils
   CATEGORY := Utilities
