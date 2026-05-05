@@ -20,6 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
 export GMP_LIB_DIR := $(STAGING_DIR)/usr/lib
+export NFTABLES_INCLUDE_DIR := $(STAGING_DIR)/usr/include
 
 define Package/reaction/Default
   SECTION  := utils
@@ -42,25 +43,25 @@ endef
 define Package/reaction-plugin-nftables
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: nftables (ban hosts via nftables)
-  DEPENDS := reaction +nftables
+  DEPENDS := +reaction +nftables
 endef
 
 define Package/reaction-plugin-ipset
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: ipset (ban hosts via ipset)
-  DEPENDS := reaction +ipset
+  DEPENDS := +reaction +ipset
 endef
 
 define Package/reaction-plugin-cluster
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: cluster (sync bans across reaction instances)
-  DEPENDS := reaction
+  DEPENDS := +reaction
 endef
 
 define Package/reaction-plugin-virtual
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: virtual (example/test plugin, no real action)
-  DEPENDS := reaction
+  DEPENDS := +reaction
 endef
 
 define Build/Compile
