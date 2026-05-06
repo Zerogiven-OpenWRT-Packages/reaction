@@ -1,6 +1,6 @@
 --- a/plugins/reaction-plugin-cluster/src/connection.rs
 +++ b/plugins/reaction-plugin-cluster/src/connection.rs
-@@ -549,7 +549,7 @@
+@@ -549,7 +549,7 @@ async fn false_recv() -> MaybeRemoteLine
  }
  
  const START_TIMEOUT: Duration = Duration::from_millis(500);
