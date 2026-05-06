@@ -1,11 +1,11 @@
 --- a/plugins/reaction-plugin-cluster/src/connection.rs
 +++ b/plugins/reaction-plugin-cluster/src/connection.rs
-@@ -549,7 +549,7 @@ async fn read_packet<P: DeserializeOwned>(
+@@ -549,7 +549,7 @@
  }
-
+ 
  const START_TIMEOUT: Duration = Duration::from_millis(500);
 -const MAX_TIMEOUT: Duration = Duration::from_hours(1);
 +const MAX_TIMEOUT: Duration = Duration::from_secs(3600);
  const TIMEOUT_FACTOR: f64 = 1.5;
-
+ 
  fn with_random(d: Duration) -> Duration {
