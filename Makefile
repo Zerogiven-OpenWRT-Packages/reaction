@@ -21,6 +21,7 @@ include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
 export GMP_LIB_DIR := $(STAGING_DIR)/usr/lib
 export NFTABLES_INCLUDE_DIR := $(STAGING_DIR)/usr/include
+export LIBCLANG_PATH := /usr/lib/llvm-11/lib
 
 define Package/reaction/Default
   SECTION  := utils
