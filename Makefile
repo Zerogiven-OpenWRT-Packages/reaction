@@ -13,14 +13,14 @@ PKG_MAINTAINER    := Christopher Söllinger <christopher.soellinger@gmail.com>
 PKG_LICENSE       := AGPLv3
 PKG_LICENSE_FILES := LICENSE
 
-PKG_BUILD_DEPENDS:=rust/host libnftnl libmnl gmp jansson iptables ipset
-PKG_BUILD_PARALLEL:=1
+PKG_BUILD_DEPENDS  :=rust/host libnftnl libmnl gmp jansson iptables ipset
+PKG_BUILD_PARALLEL :=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
-export GMP_LIB_DIR := $(STAGING_DIR)/usr/lib
-export NFTABLES_INCLUDE_DIR := $(STAGING_DIR)/usr/include
+export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
+export NFTABLES_INCLUDE_DIR     := $(STAGING_DIR)/usr/include
 export BINDGEN_EXTRA_CLANG_ARGS := -I$(STAGING_DIR)/usr/include
 
 define Package/reaction/Default
@@ -53,15 +53,15 @@ define Package/reaction-plugin-ipset
   DEPENDS := +reaction +ipset
 endef
 
-define Package/reaction-plugin-cluster
-  $(call Package/reaction/Default)
-  TITLE   := reaction plugin: cluster (sync bans across reaction instances)
-  DEPENDS := +reaction
-endef
+# define Package/reaction-plugin-cluster
+#   $(call Package/reaction/Default)
+#   TITLE   := reaction plugin: cluster (sync bans across reaction instances)
+#   DEPENDS := +reaction
+# endef
 
 define Package/reaction-plugin-virtual
   $(call Package/reaction/Default)
-  TITLE   := reaction plugin: virtual (example/test plugin, no real action)
+  TITLE   := reaction plugin: virtual
   DEPENDS := +reaction
 endef
 
@@ -69,9 +69,15 @@ define Build/Compile
 	$(call Build/Compile/Cargo,)
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-nftables)
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-ipset)
-	$(call Build/Compile/Cargo,plugins/reaction-plugin-cluster)
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-virtual)
 endef
+# define Build/Compile
+# 	$(call Build/Compile/Cargo,)
+# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-nftables)
+# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-ipset)
+# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-cluster)
+# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-virtual)
+# endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
@@ -96,10 +102,11 @@ define Package/reaction-plugin-ipset/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-linux-*/release/reaction-plugin-ipset $(1)/usr/bin/
 endef
 
-define Package/reaction-plugin-cluster/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-linux-*/release/reaction-plugin-cluster $(1)/usr/bin/
-endef
+# Not ready yet
+# define Package/reaction-plugin-cluster/install
+# 	$(INSTALL_DIR) $(1)/usr/bin
+# 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/*-linux-*/release/reaction-plugin-cluster $(1)/usr/bin/
+# endef
 
 define Package/reaction-plugin-virtual/install
 	$(INSTALL_DIR) $(1)/usr/bin
@@ -110,5 +117,5 @@ $(eval $(call RustBinPackage,$(PKG_NAME)))
 $(eval $(call BuildPackage,$(PKG_NAME)))
 $(eval $(call BuildPackage,reaction-plugin-nftables))
 $(eval $(call BuildPackage,reaction-plugin-ipset))
-$(eval $(call BuildPackage,reaction-plugin-cluster))
+# $(eval $(call BuildPackage,reaction-plugin-cluster))
 $(eval $(call BuildPackage,reaction-plugin-virtual))
