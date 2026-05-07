@@ -65,17 +65,17 @@ Upstream reaction supports a plugin architecture: each plugin is a separate long
 
 This package set ships the daemon plus four plugin packages, each as its own ipk/apk so you only install what you need:
 
-| Package | Purpose |
-| --- | --- |
-| `reaction` | Main daemon. Required. Pulls in init script and example configs. |
-| `reaction-plugin-nftables` | Manage nftables IP sets directly via `libnftables` (FFI). Creates an `inet` table named `reaction`; each filter manages its own set. |
-| `reaction-plugin-ipset` | Manage ipset sets directly via `libipset` (FFI). Upstream measures ~15× faster startup vs shelling out to the `ipset` CLI. |
+| Package | Purpose | State |
+| --- | --- | --- |
+| `reaction` | Main daemon. Required. Pulls in init script and example configs. | Stable |
+| `reaction-plugin-nftables` | Manage nftables IP sets directly via `libnftables` (FFI). Creates an `inet` table named `reaction`; each filter manages its own set. | Beta |
+| `reaction-plugin-ipset` | Manage ipset sets directly via `libipset` (FFI). Upstream measures ~15× faster startup vs shelling out to the `ipset` CLI. | Stable |
+| `reaction-plugin-virtual` | Example/test plugin with no real action. Also enables "second-level" streams – an action feeds another stream, e.g. for escalating bans on repeat offenders. | Alpha |
 <!-- | `reaction-plugin-cluster` | Synchronise bans across multiple reaction instances over a peer-to-peer mesh. Useful if you run reaction on more than one router. | -->
-| `reaction-plugin-virtual` | Example/test plugin with no real action. Also enables "second-level" streams – an action feeds another stream, e.g. for escalating bans on repeat offenders. |
 
 ### Picking the right firewall plugin
 
-- **`reaction-plugin-nftables`** is the right pick on modern OpenWrt (21.02+) where firewall4 is the default. Reaction's nftables table is independent of firewall4's tables, so the two coexist without rule conflicts.
+- **`reaction-plugin-nftables`** is the right pick on modern OpenWrt (22.03+) where firewall4 is the default. Reaction's nftables table is independent of firewall4's tables, so the two coexist without rule conflicts.
 - **`reaction-plugin-ipset`** is the right pick if you already drive your firewall via ipset (e.g. with [banIP](https://openwrt.org/docs/guide-user/services/banip), or for hand-rolled iptables/nftables rule sets that match against ipset names). You can also run both plugins side by side – they manage distinct kernel objects.
 
 ### Configuration
