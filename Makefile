@@ -13,15 +13,15 @@ PKG_MAINTAINER    := Christopher Söllinger <christopher.soellinger@gmail.com>
 PKG_LICENSE       := AGPLv3
 PKG_LICENSE_FILES := LICENSE
 
-PKG_BUILD_DEPENDS  :=rust/host libnftnl libmnl gmp jansson iptables ipset
-PKG_BUILD_PARALLEL :=1
+PKG_BUILD_DEPENDS  := rust/host libnftnl libmnl gmp jansson iptables ipset
+PKG_BUILD_PARALLEL := 1
 
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
 export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
 export NFTABLES_INCLUDE_DIR     := $(STAGING_DIR)/usr/include
-export BINDGEN_EXTRA_CLANG_ARGS := -I$(STAGING_DIR)/usr/include
+export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include
 
 define Package/reaction/Default
   SECTION  := utils
