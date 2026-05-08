@@ -19,9 +19,21 @@ PKG_BUILD_PARALLEL := 1
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
+# --- toolchain layout diagnostics (printed at make-parse time, instant) ---
+$(info >>>> TOOLCHAIN_DIR=$(TOOLCHAIN_DIR))
+$(info >>>> STAGING_DIR=$(STAGING_DIR))
+$(info >>>> TOOLCHAIN_DIR/ contents:        $(shell ls $(TOOLCHAIN_DIR) 2>/dev/null))
+$(info >>>> TOOLCHAIN_DIR/include/ exists:  $(shell test -d $(TOOLCHAIN_DIR)/include && echo yes || echo no))
+$(info >>>> TOOLCHAIN_DIR/usr/include exists: $(shell test -d $(TOOLCHAIN_DIR)/usr/include && echo yes || echo no))
+$(info >>>> stdio.h location:               $(shell find $(TOOLCHAIN_DIR) -name stdio.h 2>/dev/null | head -3))
+
 export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
 export NFTABLES_INCLUDE_DIR     := $(STAGING_DIR)/usr/include
-export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) --sysroot=$(STAGING_DIR)
+# Best-guess sysroot fix: cover both possible layouts.
+# --sysroot helps Layout B (musl headers at $(TOOLCHAIN_DIR)/usr/include).
+# -isystem helps Layout A (musl headers at $(TOOLCHAIN_DIR)/include).
+# Whichever resolves first wins; the other is harmless.
+export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) --sysroot=$(TOOLCHAIN_DIR) -isystem $(TOOLCHAIN_DIR)/include
 
 define Package/reaction/Default
   SECTION  := utils
@@ -44,13 +56,13 @@ endef
 define Package/reaction-plugin-nftables
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: nftables (ban hosts via nftables)
-  DEPENDS := +reaction +nftables
+  DEPENDS := $(RUST_ARCH_DEPENDS) +reaction +nftables
 endef
 
 define Package/reaction-plugin-ipset
   $(call Package/reaction/Default)
   TITLE   := reaction plugin: ipset (ban hosts via ipset)
-  DEPENDS := +reaction +ipset
+  DEPENDS := $(RUST_ARCH_DEPENDS) +reaction +ipset
 endef
 
 # define Package/reaction-plugin-cluster
