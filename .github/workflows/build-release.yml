@@ -71,7 +71,7 @@ jobs:
       contents: write
     uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-release.yml@prometheus-node-exporter-lua-patch
     with:
-      artifact_pattern: 'reaction-*'
+      artifact_pattern: 'reaction*'
       tag_name: ${{ github.ref_name }}
     secrets:
       RELEASE_TOKEN: ${{ secrets.OWRT_PACKAGE_RELEASE_TOKEN }}
