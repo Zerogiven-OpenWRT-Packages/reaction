@@ -20,7 +20,8 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
 export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
-export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
+# export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
+export BINDGEN_EXTRA_CLANG_ARGS := -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
 
 define Package/reaction/Default
   SECTION  := utils
@@ -70,13 +71,7 @@ define Build/Compile
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-ipset)
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-virtual)
 endef
-# define Build/Compile
-# 	$(call Build/Compile/Cargo,)
-# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-nftables)
-# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-ipset)
-# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-cluster)
-# 	$(call Build/Compile/Cargo,plugins/reaction-plugin-virtual)
-# endef
+# $(call Build/Compile/Cargo,plugins/reaction-plugin-cluster)
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
