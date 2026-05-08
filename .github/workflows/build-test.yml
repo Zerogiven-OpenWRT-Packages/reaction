@@ -11,6 +11,7 @@ on:
         options:
         - '24.10'
         - '25.12'
+        - 'both'
       verbose:
         description: 'Verbose build output'
         required: false
