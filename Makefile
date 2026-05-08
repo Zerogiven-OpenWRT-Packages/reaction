@@ -19,21 +19,17 @@ PKG_BUILD_PARALLEL := 1
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
-# --- toolchain layout diagnostics (printed at make-parse time, instant) ---
-$(info >>>> TOOLCHAIN_DIR=$(TOOLCHAIN_DIR))
-$(info >>>> STAGING_DIR=$(STAGING_DIR))
-$(info >>>> TOOLCHAIN_DIR/ contents:        $(shell ls $(TOOLCHAIN_DIR) 2>/dev/null))
-$(info >>>> TOOLCHAIN_DIR/include/ exists:  $(shell test -d $(TOOLCHAIN_DIR)/include && echo yes || echo no))
-$(info >>>> TOOLCHAIN_DIR/usr/include exists: $(shell test -d $(TOOLCHAIN_DIR)/usr/include && echo yes || echo no))
-$(info >>>> stdio.h location:               $(shell find $(TOOLCHAIN_DIR) -name stdio.h 2>/dev/null | head -3))
-
+# OpenWrt's libgmp package stages libgmp.so but not gmp.pc, so libnftables1-sys's
+# build.rs cannot probe gmp via pkg-config. Setting GMP_LIB_DIR makes its
+# build.rs take the env-var fallback and emit -L<dir> -lgmp directly.
 export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
-export NFTABLES_INCLUDE_DIR     := $(STAGING_DIR)/usr/include
-# Best-guess sysroot fix: cover both possible layouts.
-# --sysroot helps Layout B (musl headers at $(TOOLCHAIN_DIR)/usr/include).
-# -isystem helps Layout A (musl headers at $(TOOLCHAIN_DIR)/include).
-# Whichever resolves first wins; the other is harmless.
-export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) --sysroot=$(TOOLCHAIN_DIR) -isystem $(TOOLCHAIN_DIR)/include
+
+# bindgen runs libclang to parse C headers. For cross-target builds we need:
+#   -resource-dir=...        clang's built-in headers (stdbool.h, etc.)
+#   -I<staging>/usr/include  OpenWrt-staged headers (libnftables, libipset)
+#   --target=<rust target>   correct ABI/data-model so ssize_t etc. size right
+#   -isystem <toolchain>/include  musl libc headers consistent with the target
+export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
 
 define Package/reaction/Default
   SECTION  := utils
