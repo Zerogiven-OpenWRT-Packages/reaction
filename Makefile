@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME    := reaction
 PKG_VERSION := 2.3.1
-PKG_RELEASE := 1
+PKG_RELEASE := 2
 
 PKG_BUILD_DIR  := $(BUILD_DIR)/$(PKG_NAME)-v$(PKG_VERSION)
 PKG_SOURCE     := $(PKG_NAME)-v$(PKG_VERSION).tar.gz
@@ -20,7 +20,6 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 
 export GMP_LIB_DIR              := $(STAGING_DIR)/usr/lib
-# export BINDGEN_EXTRA_CLANG_ARGS := -resource-dir=/usr/lib/llvm-11/lib/clang/11.0.1 -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
 export BINDGEN_EXTRA_CLANG_ARGS := -I$(STAGING_DIR)/usr/include --target=$(RUSTC_TARGET_ARCH) -isystem $(TOOLCHAIN_DIR)/include
 
 define Package/reaction/Default
@@ -53,6 +52,7 @@ define Package/reaction-plugin-ipset
   DEPENDS := $(RUST_ARCH_DEPENDS) +reaction +ipset
 endef
 
+# Not ready yet
 # define Package/reaction-plugin-cluster
 #   $(call Package/reaction/Default)
 #   TITLE   := reaction plugin: cluster (sync bans across reaction instances)
@@ -71,6 +71,7 @@ define Build/Compile
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-ipset)
 	$(call Build/Compile/Cargo,plugins/reaction-plugin-virtual)
 endef
+# Not ready yet
 # $(call Build/Compile/Cargo,plugins/reaction-plugin-cluster)
 
 define Package/$(PKG_NAME)/install
