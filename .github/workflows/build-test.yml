@@ -25,31 +25,16 @@ jobs:
         include:
           # 25.12
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.3'
             arch: 'aarch64_cortex-a53'
           # 24.10
           - openwrt_version: '24.10'
             openwrt_build_version: '24.10.6'
             arch: 'aarch64_cortex-a53'
-          # - openwrt_version: '24.10'
-          #   openwrt_build_version: '24.10.6'
-          #   arch: 'aarch64_cortex-a53'
-          # - openwrt_version: '24.10'
-          #   openwrt_build_version: '24.10.6'
-          #   arch: 'aarch64_cortex-a72'
-          # - openwrt_version: '24.10'
-          #   openwrt_build_version: '24.10.6'
-          #   arch: 'arm_cortex-a7'
-          # - openwrt_version: '24.10'
-          #   openwrt_build_version: '24.10.6'
-          #   arch: 'arm_cortex-a7_neon-vfpv4'
-          # - openwrt_version: '24.10'
-          #   openwrt_build_version: '24.10.6'
-          #   arch: 'arm_cortex-a9'
 
       fail-fast: false
 
-    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@prometheus-node-exporter-lua-patch
+    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@main
     with:
       package_name: 'reaction'
       sdk_packages: 'libnftnl libmnl gmp jansson iptables ipset reaction'
@@ -62,3 +47,4 @@ jobs:
       selected_version: ${{ github.event.inputs.openwrt_version }}
       verbose: ${{ github.event.inputs.verbose == 'true' }}
       free_disk_space: true
+      use_patched_build: ${{ github.event.inputs.openwrt_version == '24.10' }}
