@@ -1,6 +1,6 @@
 --- a/plugins/reaction-plugin/src/time.rs
 +++ b/plugins/reaction-plugin/src/time.rs
-@@ -35,9 +35,9 @@ pub fn parse_duration(d: &str) -> Result
+@@ -37,9 +37,9 @@ pub fn parse_duration(d: &str) -> Result
      match d_trimmed[i..].trim() {
          "ms" | "millis" | "millisecond" | "milliseconds" => ok_as(Duration::from_millis),
          "s" | "sec" | "secs" | "second" | "seconds" => ok_as(Duration::from_secs),
@@ -13,7 +13,7 @@
          unit => Err(format!(
              "unit {} not recognised. must be one of s/sec/seconds, m/min/minutes, h/hours, d/days",
              unit
-@@ -60,10 +60,10 @@ mod tests {
+@@ -116,10 +116,10 @@ mod tests {
          assert_eq!(parse_duration("1s"), Ok(Duration::from_secs(1)));
          assert_eq!(parse_duration("12s"), Ok(Duration::from_secs(12)));
          assert_eq!(parse_duration("  12  secs  "), Ok(Duration::from_secs(12)));

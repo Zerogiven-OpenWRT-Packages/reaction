@@ -25,7 +25,7 @@ jobs:
         include:
           # 25.12
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.3'
+            openwrt_build_version: '25.12.4'
             arch: 'aarch64_cortex-a53'
           # 24.10
           - openwrt_version: '24.10'
