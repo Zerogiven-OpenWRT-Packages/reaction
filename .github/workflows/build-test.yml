@@ -29,7 +29,7 @@ jobs:
             arch: 'aarch64_cortex-a53'
           # 24.10
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'aarch64_cortex-a53'
 
       fail-fast: false

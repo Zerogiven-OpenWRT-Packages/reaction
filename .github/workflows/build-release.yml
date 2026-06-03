@@ -32,22 +32,22 @@ jobs:
 
           # 24.10
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'x86_64'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'aarch64_cortex-a53'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'aarch64_cortex-a72'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a7'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a7_neon-vfpv4'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a9'
 
       fail-fast: false
