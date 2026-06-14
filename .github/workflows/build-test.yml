@@ -48,3 +48,5 @@ jobs:
       verbose: ${{ github.event.inputs.verbose == 'true' }}
       free_disk_space: true
       use_patched_build: true
+    secrets:
+      APK_SIGN_KEY: ${{ secrets.APK_SIGN_KEY }}

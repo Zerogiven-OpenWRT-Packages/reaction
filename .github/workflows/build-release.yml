@@ -12,47 +12,47 @@ jobs:
         include:
           # 25.12
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'x86_64'
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'aarch64_cortex-a53'
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'aarch64_cortex-a72'
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'arm_cortex-a7'
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'arm_cortex-a7_neon-vfpv4'
           - openwrt_version: '25.12'
-            openwrt_build_version: '25.12.2'
+            openwrt_build_version: '25.12.4'
             arch: 'arm_cortex-a9'
 
           # 24.10
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'x86_64'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'aarch64_cortex-a53'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'aarch64_cortex-a72'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a7'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a7_neon-vfpv4'
           - openwrt_version: '24.10'
-            openwrt_build_version: '24.10.6'
+            openwrt_build_version: '24.10.7'
             arch: 'arm_cortex-a9'
 
       fail-fast: false
 
-    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@prometheus-node-exporter-lua-patch
+    uses: Zerogiven/gh-openwrt-package-build-workflows/.github/workflows/reusable-build.yml@main
     with:
       package_name: 'reaction'
       sdk_packages: 'reaction'
@@ -63,7 +63,10 @@ jobs:
       openwrt_build_version: ${{ matrix.openwrt_build_version }}
       arch: ${{ matrix.arch }}
       free_disk_space: true
+      use_patched_build: true
       verbose: false
+    secrets:
+      APK_SIGN_KEY: ${{ secrets.APK_SIGN_KEY }}
 
   create-release:
     needs: build-packages
