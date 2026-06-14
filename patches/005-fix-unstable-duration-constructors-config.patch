@@ -1,0 +1,20 @@
+--- a/src/concepts/config.rs
++++ b/src/concepts/config.rs
+@@ -57,7 +57,7 @@ fn dot() -> String {
+ }
+ 
+ fn one_day() -> Option<Duration> {
+-    Some(Duration::from_hours(24))
++    Some(Duration::from_secs(24 * 3600))
+ }
+ fn is_one_day(interval: &Option<Duration>) -> bool {
+     interval == &one_day()
+@@ -139,7 +139,7 @@ impl Config {
+         }
+ 
+         if let Some(interval) = self.state_rotation_interval.as_ref() {
+-            if interval < &Duration::from_mins(30) {
++            if interval < &Duration::from_secs(30 * 60) {
+                 return Err(format!(
+                     "state_rotation_interval minimum value is set to 30 mins, but you set it to '{}'",
+                     print_duration(interval)
