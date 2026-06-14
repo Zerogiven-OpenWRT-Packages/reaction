@@ -1,6 +1,6 @@
 --- a/plugins/reaction-plugin/src/time.rs
 +++ b/plugins/reaction-plugin/src/time.rs
-@@ -37,9 +37,9 @@ pub fn parse_duration(d: &str) -> Result<Duration, String> {
+@@ -37,9 +37,9 @@ pub fn parse_duration(d: &str) -> Result
      match d_trimmed[i..].trim() {
          "ms" | "millis" | "millisecond" | "milliseconds" => ok_as(Duration::from_millis),
          "s" | "sec" | "secs" | "second" | "seconds" => ok_as(Duration::from_secs),
