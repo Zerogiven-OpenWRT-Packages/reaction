@@ -30,6 +30,12 @@
           ip saddr @bans drop
           ip6 saddr @bans6 drop
         }
+        chain forward {
+          type filter hook forward priority 0
+          policy accept
+          ip saddr @bans drop
+          ip6 saddr @bans6 drop
+        }
       }
     |||],
   ],
