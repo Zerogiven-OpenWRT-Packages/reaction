@@ -88,5 +88,5 @@ printf 'wall time       : %s s  (%s ms/ban)\n' "$WALL" "$(awk -v w="$WALL" -v n=
 printf 'system CPU      : %s jiffies raw  /  %s jiffies minus baseline\n' "$CPU" "$CPU_ADJ"
 printf 'baseline busy   : %s jiffies/s\n' "$BASE"
 printf 'reaction RSS    : %s\n' "$(rss "$RPID")"
-printf 'plugin RSS      : %s\n' "${PP:+$(rss "$PP")}${PP:-(none)}"
+if [ -n "$PP" ]; then printf 'plugin RSS      : %s\n' "$(rss "$PP")"; else printf 'plugin RSS      : (none)\n'; fi
 echo "(lower wall time + lower CPU = faster backend on this hardware)"
