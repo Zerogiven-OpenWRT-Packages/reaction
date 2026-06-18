@@ -1,0 +1,103 @@
+--- a/plugins/reaction-plugin-nftables/src/nft.rs
++++ b/plugins/reaction-plugin-nftables/src/nft.rs
+@@ -6,6 +6,7 @@ use std::{
+ 
+ use libnftables1_sys::Nftables;
+ use nftables::batch::Batch;
++use serde_json::Value;
+ use tokio::sync::{mpsc, oneshot};
+ 
+ /// A client with a dedicated server thread to libnftables.
+@@ -24,18 +25,34 @@ impl Default for NftClient {
+             let mut conn = Nftables::new();
+             conn.set_output_json();
+ 
+-            while let Some(NftCommand { json, ret }) = rx.blocking_recv() {
+-                let (rc, output, error) = conn.run_cmd(json.as_ptr());
+-                let res = match rc {
+-                    0 => to_rust_string(output)
+-                        .ok_or_else(|| "unknown ok (rc = 0 but no output buffer)".into()),
+-                    _ => Err(to_rust_string(error)
+-                        .map(|err| format!("error (rc = {rc}: {err})"))
+-                        .unwrap_or_else(|| {
+-                            format!("unknown error (rc = {rc} but no error buffer)")
+-                        })),
+-                };
+-                let _ = ret.send(res);
++            while let Some(first) = rx.blocking_recv() {
++                // Coalesce the first command with any others already queued into a
++                // single nftables batch, so the per-run_cmd cache cost is paid once
++                // per burst instead of once per IP. (Only helps when several bans
++                // are queued together; a steady drip still pays the cost per IP.)
++                let mut objects: Vec<Value> = Vec::new();
++                let mut rets = Vec::new();
++                let mut pending = Some(first);
++                loop {
++                    let cmd = match pending.take() {
++                        Some(cmd) => cmd,
++                        None => match rx.try_recv() {
++                            Ok(cmd) => cmd,
++                            Err(_) => break,
++                        },
++                    };
++                    if let Value::Object(mut map) = cmd.json {
++                        if let Some(Value::Array(mut arr)) = map.remove("nftables") {
++                            objects.append(&mut arr);
++                        }
++                    }
++                    rets.push(cmd.ret);
++                }
++
++                let res = run_batch(&mut conn, objects);
++                for ret in rets {
++                    let _ = ret.send(res.clone());
++                }
+             }
+         });
+ 
+@@ -43,15 +60,31 @@ impl Default for NftClient {
+     }
+ }
+ 
++/// Serialize the merged objects and run them as a single libnftables command.
++fn run_batch(conn: &mut Nftables, objects: Vec<Value>) -> Result<String, String> {
++    let mut json = serde_json::to_vec(&serde_json::json!({ "nftables": objects }))
++        .map_err(|err| format!("couldn't build json to send to nftables: {err}"))?;
++    json.push(b'\0');
++    let json = CString::from_vec_with_nul(json)
++        .map_err(|err| format!("invalid json with null char: {err}"))?;
++
++    let (rc, output, error) = conn.run_cmd(json.as_ptr());
++    match rc {
++        0 => to_rust_string(output)
++            .ok_or_else(|| "unknown ok (rc = 0 but no output buffer)".into()),
++        _ => Err(to_rust_string(error)
++            .map(|err| format!("error (rc = {rc}: {err})"))
++            .unwrap_or_else(|| format!("unknown error (rc = {rc} but no error buffer)"))),
++    }
++}
++
+ impl NftClient {
+     /// Send a batch to nftables.
+     pub async fn send(&self, batch: Batch<'_>) -> Result<String, String> {
+-        // convert JSON to CString
+-        let mut json = serde_json::to_vec(&batch.to_nftables())
++        // Convert to an owned JSON value so it can be merged with other queued
++        // commands on the server thread.
++        let json = serde_json::to_value(&batch.to_nftables())
+             .map_err(|err| format!("couldn't build json to send to nftables: {err}"))?;
+-        json.push('\0' as u8);
+-        let json = CString::from_vec_with_nul(json)
+-            .map_err(|err| format!("invalid json with null char: {err}"))?;
+ 
+         // Send command
+         let (tx, rx) = oneshot::channel();
+@@ -68,7 +101,7 @@ impl NftClient {
+ }
+ 
+ struct NftCommand {
+-    json: CString,
++    json: Value,
+     ret: oneshot::Sender<Result<String, String>>,
+ }
+ 
