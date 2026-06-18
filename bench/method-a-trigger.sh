@@ -64,12 +64,14 @@ while [ "$i" -lt "$N" ]; do
   i=$((i + 1))
 done
 
-# wait for the ban actions to drain (1s windows near baseline; 120s cap)
-g=0
-while [ "$g" -lt 120 ]; do
+# wait for the ban actions to drain (1s windows near baseline). DRAIN_CAP guards
+# against a hang; if it's hit the run didn't finish and the result is truncated.
+g=0; drained=0
+while [ "$g" -lt "${DRAIN_CAP:-600}" ]; do
   a=$(busy); sleep 1; b=$(busy); g=$((g + 1))
-  [ $((b - a)) -le "$THRESH" ] && break
+  [ $((b - a)) -le "$THRESH" ] && { drained=1; break; }
 done
+[ "$drained" -eq 0 ] && echo "WARNING: drain hit ${g}s cap -- result TRUNCATED, use a smaller N" >&2
 T1=$(now); BUSY_END=$(busy)
 
 WALL=$(awk -v a="$T0" -v b="$T1" 'BEGIN{printf "%.2f", b - a}')
