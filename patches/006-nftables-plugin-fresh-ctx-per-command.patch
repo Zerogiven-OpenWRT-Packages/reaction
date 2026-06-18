@@ -1,0 +1,21 @@
+--- a/plugins/reaction-plugin-nftables/src/nft.rs
++++ b/plugins/reaction-plugin-nftables/src/nft.rs
+@@ -21,10 +21,15 @@ impl Default for NftClient {
+         let (tx, mut rx) = mpsc::channel(10);
+ 
+         thread::spawn(move || {
+-            let mut conn = Nftables::new();
+-            conn.set_output_json();
+-
+             while let Some(NftCommand { json, ret }) = rx.blocking_recv() {
++                // Use a fresh libnftables context for every command. A long-lived
++                // ctx re-syncs its cache (including the whole target set) on each
++                // run_cmd once the ruleset generation changes, so every `add
++                // element` costs O(set size) -> O(N^2) for N bans. A fresh ctx
++                // caches minimally per command, like the `nft` binary, keeping
++                // each add ~O(1).
++                let mut conn = Nftables::new();
++                conn.set_output_json();
+                 let (rc, output, error) = conn.run_cmd(json.as_ptr());
+                 let res = match rc {
+                     0 => to_rust_string(output)
