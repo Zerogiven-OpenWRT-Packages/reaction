@@ -16,10 +16,12 @@
       table inet reaction {
         set bans {
           type ipv4_addr
-          flags interval
-          auto-merge
         }
         set bans6 {
+          # interval (a /64 prefix per the ipv6mask above needs it); a hash set
+          # like `bans` can only hold exact addresses. IPv4 single IPs use a
+          # plain hash set so inserts stay O(1) as the banlist grows -- interval
+          # sets cost O(set size) per insert (O(N^2) over a full banlist).
           type ipv6_addr
           flags interval
           auto-merge
