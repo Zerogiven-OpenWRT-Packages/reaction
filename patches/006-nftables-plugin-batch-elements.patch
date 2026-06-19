@@ -31,7 +31,7 @@
 +                // are queued together; a steady drip still pays the cost per IP.)
 +                let mut objects: Vec<Value> = Vec::new();
 +                let mut rets = Vec::new();
-+                let mut pending = Some(first);
++                let mut pending: Option<NftCommand> = Some(first);
 +                loop {
 +                    let cmd = match pending.take() {
 +                        Some(cmd) => cmd,
