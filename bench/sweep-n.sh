@@ -7,6 +7,11 @@
 # Usage:  ./sweep-n.sh <bench-config.jsonnet> [N1 N2 ...]
 #   e.g.  ./sweep-n.sh ./bench-plugin.jsonnet
 #         ./sweep-n.sh ./bench-inline.jsonnet 1000 5000 20000
+#         RANDOM_IPS=1 ./sweep-n.sh ./bench-inline.jsonnet   # realistic IPs
+#
+# RANDOM_IPS=1 feeds scattered IPs (passed through to method-b) that an interval
+# set can't auto-merge -- use it to compare interval vs hash sets honestly; the
+# default sequential IPs let auto-merge collapse the set and flatter intervals.
 #
 # Run it for both backends and compare the shapes. CPU/1k (CPU jiffies per 1000
 # bans) is the cleanest signal -- it normalises out N and HZ.
